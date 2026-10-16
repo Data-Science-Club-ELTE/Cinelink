@@ -1,0 +1,8 @@
+[
+  {"id":-900001,"title":"CineLink Demo: Orbit","year":2024,"score":8.0,"genres":["Science Fiction","Adventure"],"synopsis":"A fictional crew maps a quiet moon. Original development fixture."},
+  {"id":-900002,"title":"CineLink Demo: Signal","year":2024,"score":7.6,"genres":["Science Fiction","Drama"],"synopsis":"Fictional researchers decipher a signal. Original development fixture."},
+  {"id":-900003,"title":"CineLink Demo: Trail","year":2023,"score":7.8,"genres":["Adventure","Drama"],"synopsis":"A fictional team follows a walking trail. Original development fixture."},
+  {"id":-900004,"title":"CineLink Demo: Bakery","year":2023,"score":7.1,"genres":["Comedy","Drama"],"synopsis":"A fictional neighborhood prepares a baking contest. Original development fixture."},
+  {"id":-900005,"title":"CineLink Demo: Detour","year":2022,"score":7.3,"genres":["Adventure","Comedy"],"synopsis":"Fictional friends take a train journey. Original development fixture."},
+  {"id":-900006,"title":"CineLink Demo: Rehearsal","year":2022,"score":7.5,"genres":["Comedy","Drama"],"synopsis":"A fictional orchestra prepares a concert. Original development fixture."}
+]

@@ -1,0 +1,43 @@
+# Dependencies and generated output
+node_modules/
+.pnpm-store/
+.verification/
+coverage/
+test-results/
+playwright-report/
+*.zip
+*.tar
+*.gz
+*.csv
+*.parquet
+.next/
+.next-production/
+out/
+build/
+.vercel/
+*.tsbuildinfo
+next-env.d.ts
+*.log
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# ML datasets, model artifacts and local results
+data/raw/
+data/processed/
+models/artifacts/
+experiments/runs/
+*.db
+*.sqlite
+*.dump
+*.backup
+.ipynb_checkpoints/
+__pycache__/
+.pytest_cache/
+.venv/
+venv/
+.DS_Store

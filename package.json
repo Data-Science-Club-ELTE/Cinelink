@@ -1,0 +1,64 @@
+{
+  "name": "cinelink",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "setup-db": "node scripts/setup-neo4j.js",
+    "import-movies": "node scripts/import-tmdb-movies.js",
+    "typecheck": "next typegen && tsc --noEmit",
+    "test": "node --test tests/*.test.cjs",
+    "test:integration": "node scripts/verify-v1.cjs",
+    "seed-db": "node scripts/seed-neo4j.cjs",
+    "check:secrets": "node scripts/check-secrets.cjs",
+    "db:up": "docker compose --env-file .env.local up -d --wait",
+    "db:down": "docker compose --env-file .env.local down"
+  },
+  "dependencies": {
+    "@radix-ui/react-label": "2.1.1",
+    "@radix-ui/react-slot": "1.2.4",
+    "@radix-ui/react-tabs": "1.1.13",
+    "@radix-ui/react-toast": "1.2.4",
+    "bcryptjs": "^3.0.3",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "dotenv": "^17.2.3",
+    "lucide-react": "^0.454.0",
+    "neo4j-driver": "6.0.1",
+    "next": "15.5.28",
+    "next-auth": "5.0.0-beta.32",
+    "next-themes": "0.4.6",
+    "react": "^19",
+    "react-dom": "^19",
+    "tailwind-merge": "^2.5.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5",
+    "eslint": "^9.39.0",
+    "@eslint/js": "^9.39.0",
+    "globals": "^16.5.0",
+    "autoprefixer": "^10.4.20",
+    "tailwindcss-animate": "^1.0.7"
+  },
+  "packageManager": "pnpm@8.12.1",
+  "engines": {
+    "node": ">=22 <23"
+  },
+  "pnpm": {
+    "overrides": {
+      "postcss": "^8.5.23",
+      "nanoid": "^3.3.18",
+      "browserslist": "^4.28.7",
+      "source-map-js": "^1.2.2",
+      "baseline-browser-mapping": "^2.11.0"
+    }
+  }
+}

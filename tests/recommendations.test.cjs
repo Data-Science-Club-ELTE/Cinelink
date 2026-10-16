@@ -1,0 +1,21 @@
+const { test } = require('node:test')
+const assert = require('node:assert/strict')
+const fs = require('node:fs')
+const fixtures = require('./fixtures/movies.json')
+const loadEngine = () => import('data:text/javascript;base64,' + Buffer.from(fs.readFileSync('lib/recommendation-engine.js')).toString('base64'))
+test('genre baseline excludes seen movies and favors liked genres', async () => {
+  const { getRecommendations } = await loadEngine()
+  const movies = fixtures.map(m => ({ ...m, genre: m.genres }))
+  const result = getRecommendations(movies, [{ movieId: -900001, rating: 5 }], 5)
+  assert.equal(result.length, 5)
+  assert.ok(result.every(m => m.id !== -900001))
+  assert.ok(result[0].genre.some(g => movies[0].genre.includes(g)))
+})
+test('cold start preserves supplied order and requested limit', async () => {
+  const { getRecommendations } = await loadEngine()
+  assert.deepEqual(getRecommendations(fixtures, [], 2), fixtures.slice(0, 2))
+})
+test('development fixtures have unique reserved IDs and original descriptions', () => {
+  assert.equal(new Set(fixtures.map(m => m.id)).size, fixtures.length)
+  assert.ok(fixtures.every(m => m.id < 0 && m.synopsis.includes('Original development fixture.')))
+})
