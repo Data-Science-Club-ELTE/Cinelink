@@ -1,0 +1,52 @@
+name: V1 checks
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      neo4j:
+        image: neo4j:5.26-community
+        env:
+          # Ephemeral CI-only credentials; not used by any persistent database.
+          NEO4J_AUTH: neo4j/ci-only-disposable-password
+        ports:
+          - 7687:7687
+        options: >-
+          --health-cmd "cypher-shell -u neo4j -p ci-only-disposable-password 'RETURN 1'"
+          --health-interval 10s --health-timeout 10s --health-retries 20
+    env:
+      NEO4J_URI: bolt://127.0.0.1:7687
+      NEO4J_USER: neo4j
+      NEO4J_PASSWORD: ci-only-disposable-password
+      AUTH_URL: http://127.0.0.1:3000
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 8.12.1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint && pnpm typecheck && pnpm test && pnpm check:secrets
+      - name: Generate ephemeral session secret
+        run: node -e "require('fs').appendFileSync(process.env.GITHUB_ENV, 'AUTH_SECRET=' + require('crypto').randomBytes(32).toString('base64url') + '\n')"
+      - run: pnpm setup-db && pnpm setup-db && node scripts/verify-seed.cjs
+      - run: pnpm build
+      - name: Production HTTP integration
+        shell: bash
+        run: |
+          pnpm start > /tmp/cinelink-server.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for attempt in {1..30}; do
+            if curl --fail --silent http://127.0.0.1:3000 > /dev/null; then break; fi
+            sleep 2
+          done
+          pnpm test:integration
