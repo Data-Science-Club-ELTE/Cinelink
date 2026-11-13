@@ -53,3 +53,34 @@ CineLink V1 uses TMDB identifiers for movie metadata. The mapping provides a bri
 ## Data policy
 
 Do not commit raw MovieLens datasets or bulk derived mappings. Check the selected release's GroupLens terms and TMDB terms before redistribution. Commit only the script and this reproducibility/report template; keep generated files in ignored directories.
+## ML SMALL DATA SET 
+
+## MovieLens Latest Small — Initial CineLink V2 Dataset
+
+The mapping script was also executed against MovieLens Latest Small, the dataset selected for CineLink's initial V2 experiments.
+
+Run from the repository root:
+
+```bash
+python scripts/map_movielens_tmdb.py data/raw/ml-latest-small
+```
+
+### Mapping results
+
+| Metric | Result |
+|---|---:|
+| Movie rows | 9,742 |
+| Link rows | 9,742 |
+| Usable TMDB mappings | 9,732 |
+| Mapping coverage | **99.90%** |
+| Missing or invalid TMDB IDs | 8 |
+| Movie rows with colliding TMDB IDs | 2 |
+| Duplicate MovieLens movie IDs | 0 |
+| Duplicate link movie IDs | 0 |
+| Orphan link rows | 0 |
+
+A TMDB ID collision was detected for TMDB ID `4912`, associated with MovieLens IDs `144606` and `6003`. Both rows were excluded from usable mappings pending verification.
+
+These results confirm that 9,732 of 9,742 MovieLens Latest Small movies have usable TMDB mappings under the script's validation rules. This measures mapping coverage, not the availability of those movies through the live TMDB API.
+
+Raw datasets and generated mapping outputs remain excluded from version control.
